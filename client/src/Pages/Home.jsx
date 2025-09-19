@@ -1,12 +1,12 @@
 // Import components
 import CarouselComponent from "../Components/Carousel/CarouselComponent";
-// import NewProducts from "../components/NewProducts";
+import NewProducts from "../Components/NewProducts";
 
 const Home = () => {
   return (
     <div>
       <CarouselComponent />
-      {/* <NewProducts /> */}
+      <NewProducts />
     </div>
   );
 };

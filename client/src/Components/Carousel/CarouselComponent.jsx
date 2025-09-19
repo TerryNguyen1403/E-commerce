@@ -1,4 +1,5 @@
 import { useState, useEffect} from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Carousel, Container, Row, Col } from "react-bootstrap";
 import Spinner from 'react-bootstrap/Spinner';
 import axios from 'axios'
@@ -6,6 +7,7 @@ import './CarouselComponent.css'
 import errorImg from '../../assets/404.jpg'
 
 const CarouselComponent = () => {
+    const navigator = useNavigate();
     const [featuredProducts, setFeaturedProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -49,6 +51,9 @@ const CarouselComponent = () => {
                             <Carousel.Item
                                 key={product._id}
                                 className="carousel-item-custom"
+                                onClick={() => {
+                                    navigator(`/product/${product._id}`);
+                                }}
                             >
                                 <div className="carousel-image-container">
                                     <img

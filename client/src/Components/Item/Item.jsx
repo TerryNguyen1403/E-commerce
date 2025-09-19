@@ -1,33 +1,41 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 import { formatPrice } from '../../utils/formatPrice';
 import './Item.css';
 
-const Item = ({ _id, image, name, new_price, old_price }) => {
+const cardTitleStyle = {
+  display: '-webkit-box',
+  WebkitLineClamp: 1, // Giới hạn 1 dòng
+  WebkitBoxOrient: 'vertical',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  lineHeight: '1.2em'
+};
+
+const Item = ({ product }) => {
   return (
-    <div className="card border-0 shadow-sm h-100">
-      <Link to={`/product/${_id}`} className="text-decoration-none">
-        <img
-          src={image}
-          alt={name}
-          className="card-img-top img-fluid"
-          style={{ objectFit: "contain", height: "200px" }}
-          onClick={() => window.scrollTo(0, 0)}
+    <Card style={{ width: '19rem' }} className="product-card">
+      <Link to={`/product/${product._id}`} className="text-decoration-none">
+        <Card.Img 
+          variant="top" 
+          src={product.image} 
+          alt={product.name}
         />
       </Link>
-
-      <div className="card-body text-center">
-        <p className="card-text fw-medium">{name}</p>
-        <div className="d-flex justify-content-center gap-2">
-          <span className="fw-bold text-dark">
-            {formatPrice(new_price)} ₫
-          </span>
-          <span className="text-muted text-decoration-line-through">
-            {formatPrice(old_price)} ₫
-          </span>
+      <Card.Body>
+        <Card.Title style={cardTitleStyle}>{product.name}</Card.Title>
+        <div className="d-flex gap-2 mb-3">
+          <Card.Text className="fw-bold text-dark price-current">
+            {formatPrice(product.new_price)} ₫
+          </Card.Text>
+          <Card.Text className="text-muted text-decoration-line-through">
+            {formatPrice(product.old_price)} ₫
+          </Card.Text>
         </div>
-      </div>
-    </div>
+      </Card.Body>
+    </Card>
   );
 };
 
