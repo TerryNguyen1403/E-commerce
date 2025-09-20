@@ -51,7 +51,12 @@ const MainNavbar = () => {
                         height="30"
                         className="me-2"
                     />
-                    <span className="fw-bold">Gamestore</span>
+                    <span
+                        className="fw-bold"
+                        style={{color: '#ff6b35'}}
+                    >
+                        Gamestore
+                    </span>
                 </Navbar.Brand>
 
                 {/* Thanh tìm kiếm */}
@@ -62,7 +67,7 @@ const MainNavbar = () => {
                             placeholder="Tìm kiếm sản phẩm"
                             aria-label="Search"
                         />
-                        <Button variant="primary">Tìm</Button>
+                        <Button variant="dark">Tìm</Button>
                     </InputGroup>
                 </Form>
 

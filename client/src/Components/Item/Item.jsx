@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
 import { formatPrice } from '../../utils/formatPrice';
 import './Item.css';
 
@@ -17,17 +16,16 @@ const cardTitleStyle = {
 const Item = ({ product }) => {
   return (
     <Card style={{ width: '19rem' }} className="product-card">
-      <Link to={`/product/${product._id}`} className="text-decoration-none">
+      <Link to={`/product/${product._id}`} className="text-decoration-none text-dark">
         <Card.Img 
           variant="top" 
           src={product.image} 
           alt={product.name}
         />
-      </Link>
       <Card.Body>
         <Card.Title style={cardTitleStyle}>{product.name}</Card.Title>
         <div className="d-flex gap-2 mb-3">
-          <Card.Text className="fw-bold text-dark price-current">
+          <Card.Text className="fw-bold price-current">
             {formatPrice(product.new_price)} ₫
           </Card.Text>
           <Card.Text className="text-muted text-decoration-line-through">
@@ -35,6 +33,7 @@ const Item = ({ product }) => {
           </Card.Text>
         </div>
       </Card.Body>
+      </Link>
     </Card>
   );
 };

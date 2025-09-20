@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 const CustomBreadcrumb = ({ product }) => {
     const navigator = useNavigate();
 
+    if (!product) return null;
+
     return (
         <div className="d-flex align-items-center ms-5">
             <Breadcrumb className="mb-0">
