@@ -1,4 +1,3 @@
-import React from "react";
 import { Container, Row, Col, Image, Button, Card } from "react-bootstrap";
 import { formatPrice } from "../utils/formatPrice";
 // import { useNavigate } from "react-router-dom";
