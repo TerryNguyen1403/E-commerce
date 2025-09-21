@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
+import { Button } from 'react-bootstrap';
 
 // Import context
 import { ProductContext } from '../Context/ProductContext';
@@ -17,13 +18,14 @@ const Product = () => {
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState(null);
 
+  // Fetch product hiện tại từ context
   useEffect(() => {
     if (allProducts && allProducts.length > 0) {
       const foundProduct = allProducts.find((productItem) => productItem._id === productId);
       if (foundProduct) {
         setProduct(foundProduct);
       } else {
-        // Redirect to 404 or home if product not found
+        // Redirect to 404 hoặc home nếu không tìm thấy sản phẩm
         navigate('/');
       }
       setLoading(false);
@@ -38,15 +40,15 @@ const Product = () => {
     )
   }
 
-  if (!product) {
-    return <div>Product not found</div>; // Fallback in case product is still not found
-  }
-
   return (
     <div>
       <CustomBreadcrumb product={product}/>
       <ProductDetail product={product}/>
-      {product.platform && <RelatedProducts props={product}/>}
+      {product.platform && (
+        <RelatedProducts 
+          product={product}
+        />
+      )}
     </div>
   )
 }
