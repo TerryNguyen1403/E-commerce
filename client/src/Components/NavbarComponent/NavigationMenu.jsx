@@ -2,13 +2,11 @@ import { Container, Nav } from "react-bootstrap";
 
 const NavigationMenu = () => {
   const menuItems = [
-    { href: "/games/download", label: "GAME TẢI NHIỀU" },
+    { href: "/new-products", label: "GAME MỚI" },
     { href: "/games/all", label: "GAME +" },
-    { href: "/games/vietnamese", label: "GAME VIỆT HÓA" },
-    { href: "/games/online", label: "GAME ONLINE" },
-    { href: "/games/cracked", label: "GAME BẢN QUYỀN" },
-    { href: "/vip", label: "NẠP TẢI VIP" },
-    { href: "/blog", label: "BLOG +" },
+    { href: "/windows", label: "GAME WINDOWS" },
+    { href: "/playstation", label: "GAME PLAYSTATION" },
+    { href: "/nintendo", label: "GAME NINTENDO" },
   ];
 
   return (
