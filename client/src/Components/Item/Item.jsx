@@ -16,7 +16,11 @@ const cardTitleStyle = {
 const Item = ({ product }) => {
   return (
     <Card style={{ width: '19rem' }} className="product-card">
-      <Link to={`/product/${product._id}`} className="text-decoration-none text-dark">
+      <Link
+        to={`/product/${product._id}`}
+        className="text-decoration-none text-dark"
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      >
         <Card.Img 
           variant="top" 
           src={product.image} 
