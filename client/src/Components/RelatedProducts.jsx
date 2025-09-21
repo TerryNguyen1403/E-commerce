@@ -6,14 +6,14 @@ import Item from './Item/Item'
 // Import utils
 import axios from 'axios'
 
-const RelatedProducts = ({ platform }) => {
+const RelatedProducts = ({ props }) => {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchNewProducts = async () => {
         try {
-            const res = await axios.get(`http://localhost:4000/api/product/related-products/${platform}`);
+            const res = await axios.get(`http://localhost:4000/api/product/related-products/${props.platform}`);
             setRelatedProducts(res.data.productByPlatform);
         } catch (error) {
             console.error('Lỗi khi fetch: ', error);
@@ -21,7 +21,7 @@ const RelatedProducts = ({ platform }) => {
     }
     
     fetchNewProducts();
-  }, [platform]);
+  }, [props.platform]);
 
   const handleNavigate = () => {
     navigate('/related-products');
