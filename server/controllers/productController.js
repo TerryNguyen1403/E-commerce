@@ -3,12 +3,13 @@ import Product from '../models/Product.js';
 // Thêm sản phẩm
 export const addProduct = async (req, res) => {
     try {
-        const { name, platform, image, new_price, old_price, description, isFeatured } = req.body;
+        const { name, platform, image, thumb, new_price, old_price, description, isFeatured } = req.body;
 
         const newProduct = new Product({
             name: name,
             platform: platform,
             image: image,
+            thumb: thumb,
             new_price: new_price,
             old_price: old_price,
             description: description,

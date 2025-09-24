@@ -14,6 +14,10 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    thumb: {
+        type: String,
+        required: true
+    },
     new_price: {
         type: Number,
         required: true
