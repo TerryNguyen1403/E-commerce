@@ -4,7 +4,7 @@ import { Container, Row, Col } from 'react-bootstrap'
 import Item from './Item/Item'
 
 // Import utils
-import axios from 'axios'
+import api from '../api/axios'
 
 const ProductSection = ({
   title, 
@@ -25,7 +25,8 @@ const ProductSection = ({
       
       setLoading(true);
       try {
-        const res = await axios.get(apiEndpoint);
+        const endpoint = apiEndpoint.replace('http://localhost:4000', '');
+        const res = await api.get(endpoint);
         // Linh hoạt với cấu trúc response khác nhau
         const data = res.data[dataKey] || res.data || [];
         setProducts(data);

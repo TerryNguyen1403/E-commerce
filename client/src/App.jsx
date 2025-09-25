@@ -27,7 +27,7 @@ function App() {
           <Route path=":productId" element={<Product />}/>
         </Route>
         <Route path='/new-products' element={<DisplayProduct endpoint='new-products'/>}/>
-        <Route path='/hot-products' element={<DisplayProduct endpoint='hot-products'/>}/>
+        <Route path='/featured-products' element={<DisplayProduct endpoint='featured-products'/>}/>
         <Route path='/windows' element={<DisplayProduct endpoint='windows'/>}/>
         <Route path='/playstation' element={<DisplayProduct endpoint='playstation'/>}/>
         <Route path='/nintendo' element={<DisplayProduct endpoint='nintendo'/>}/>

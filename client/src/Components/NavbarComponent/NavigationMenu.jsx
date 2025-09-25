@@ -3,7 +3,7 @@ import { Container, Nav } from "react-bootstrap";
 const NavigationMenu = () => {
   const menuItems = [
     { href: "/new-products", label: "GAME MỚI" },
-    { href: "/games/all", label: "GAME +" },
+    { href: "/featured-products", label: "GAME NỔI BẬT" },
     { href: "/windows", label: "GAME WINDOWS" },
     { href: "/playstation", label: "GAME PLAYSTATION" },
     { href: "/nintendo", label: "GAME NINTENDO" },
