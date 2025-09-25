@@ -11,6 +11,7 @@ import Home from './Pages/Home'
 import Product from './Pages/Product'
 import DisplayProduct from './Pages/DisplayProduct'
 import ScrollToTop from './Components/ScrollToTop'
+import CartDetail from './Pages/CartDetail'
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path='/windows' element={<DisplayProduct endpoint='windows'/>}/>
         <Route path='/playstation' element={<DisplayProduct endpoint='playstation'/>}/>
         <Route path='/nintendo' element={<DisplayProduct endpoint='nintendo'/>}/>
+        <Route path='/cart' element={<CartDetail />}/>
       </Routes>
       <ScrollToTop />
       <Footer />
