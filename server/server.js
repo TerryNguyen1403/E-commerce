@@ -7,7 +7,8 @@ import connectDB from './DB/connect.js';
 
 // Import routes
 import productRoute from './routes/productRoute.js';
-import userRoute from './routes/userRoute.js'
+import userRoute from './routes/userRoute.js';
+import cartRoute from './routes/cartRoute.js';
 
 const app = express();
 connectDB();
@@ -19,6 +20,7 @@ app.use(cors());
 // Routes
 app.use('/api/product', productRoute);
 app.use('/api/user', userRoute);
+app.use('/api/cart', cartRoute);
 
 // Cho phép truy cập file trong /uploads
 app.use('/uploads', express.static('uploads'));
