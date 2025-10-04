@@ -69,3 +69,49 @@ export const getCartData = async (req, res) => {
         })
     }
 }
+
+// Cập nhật số lượng sản phẩm trong giỏ hàng
+export const updateQuantity = async (req, res) => {
+    try {
+        const { productId, quantity } = req.body;
+        const userId = req.user.id;
+        const cart = await Cart.findOne({ userId });
+
+        if (!cart) {
+            return res.status(404).json({
+                message: "Không tìm thấy giỏ hàng"
+            })
+        }
+
+        // Nếu quantity = 0 thì xóa item
+        if (quantity <= 0){
+            cart.items = cart.items.filter(
+                item => String(item.productId) !== String(productId)
+            );
+        } else {
+            const item = cart.items.find(
+                i => String(i.productId) === String(productId)
+            );
+            if (item) {
+                item.quantity = quantity;
+            } else {
+                cart.items.push({ productId, quantity })
+            }
+        }
+
+        await cart.save();
+        // Chuẩn hóa dữ liệu trả về thành map tương tự getCartData
+        const cartData = {};
+        cart.items.forEach((i) => {
+            cartData[i.productId] = i.quantity;
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: "Cập nhật số lượng thành công",
+            cartData
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, error: "Update thất bại" })
+    }
+}

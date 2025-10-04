@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState} from "react";
-import axios from 'axios';
+import api from '../api/axios';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const CartContext = createContext(null);
@@ -8,27 +8,21 @@ const CartContextProvider = (props) => {
     // State authenticated
     const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
 
-    // Chứa _id và quantity của sản phẩm trong giỏ hàng
-    const [cartData, setCartData] = useState([]);
+    // Chứa map productId -> quantity
+    const [cartData, setCartData] = useState({});
 
     useEffect(() => {
         const fetchCartData = async () => {
             const token = localStorage.getItem("token");
             if (!token) {
                 // Xử lý lỗi 401
-                setCartData([]);
+                setCartData({});
                 return;
             }
             try {
-                const response = await axios.get(
-                    'http://localhost:4000/api/cart/get-cart-data',
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                            token: token,
-                        }
-                    },
-                )
+                const response = await api.get(
+                    '/api/cart/get-cart-data'
+                );
 
                 if (response.data) {
                     setCartData(response.data);
@@ -60,9 +54,43 @@ const CartContextProvider = (props) => {
         setIsAuthenticated(status);
     }
 
+    // ===== Cart helpers =====
+    const updateCartQuantity = async (productId, quantity) => {
+        try {
+            const res = await api.put('/api/cart/update-quantity', {
+                productId,
+                quantity
+            });
+            if (res.data?.cartData) {
+                setCartData(res.data.cartData);
+            }
+        } catch (error) {
+            console.error('Cập nhật số lượng thất bại', error);
+        }
+    }
+
+    const increment = async (productId) => {
+        const current = Number(cartData?.[productId] ?? 0);
+        await updateCartQuantity(productId, current + 1);
+    }
+
+    const decrement = async (productId) => {
+        const current = Number(cartData?.[productId] ?? 0);
+        const next = current - 1;
+        await updateCartQuantity(productId, next < 0 ? 0 : next);
+    }
+
+    const removeFromCart = async (productId) => {
+        await updateCartQuantity(productId, 0);
+    }
+
     const contextValue = {
         cartData,
-        updateIsAuthenticated
+        updateIsAuthenticated,
+        updateCartQuantity,
+        increment,
+        decrement,
+        removeFromCart
     }
 
     return (

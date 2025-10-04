@@ -2,6 +2,9 @@ import {
   Container, Row, Col, Card, Button, Form 
 } from "react-bootstrap";
 import { useContext } from "react";
+
+// Import utils
+import { formatPrice } from '../utils/formatPrice';
   
 // Import context
 import { ProductContext } from '../Context/ProductContext';
@@ -10,7 +13,7 @@ import { CartContext } from "../Context/CartContext";
 const CartDetail = () => {
   // Sử dụng context
   const { allProducts } = useContext(ProductContext);
-  const { cartData } = useContext(CartContext);
+  const { cartData, increment, decrement, removeFromCart } = useContext(CartContext);
     
   // Convert sản phẩm từ object sang array
   const toArrayProducts = Object.entries(cartData || {});
@@ -23,6 +26,13 @@ const CartDetail = () => {
 
   // Lọc ra những sản phẩm không có trong danh sách giỏ hàng
   const filteredProduct = productDetails.filter(Boolean);
+
+  // Tổng số lượng items & tổng tiền
+  const totalItems = filteredProduct.reduce((sum, { quantity }) => sum + Number(quantity ?? 0), 0);
+  const totalAmount = filteredProduct.reduce((sum, { product, quantity }) => {
+    const unitPrice = Number(product?.new_price ?? 0);
+    return sum + unitPrice * Number(quantity ?? 0);
+  }, 0);
     
   return (
       <section className="h-100 h-custom" style={{ backgroundColor: "#eee" }}>
@@ -37,13 +47,12 @@ const CartDetail = () => {
                       <div className="p-5">
                         <div className="d-flex justify-content-between align-items-center mb-5">
                           <h1 className="fw-bold mb-0 text-black">Giỏ hàng</h1>
-                          <h6 className="mb-0 text-muted"> items</h6>
                         </div>
 
                         <hr className="my-4" />
 
                         {/* Item rows */}
-                        {filteredProduct === 0 ? (
+                        {filteredProduct.length === 0 ? (
                           <div className="text-center text-muted py-5">Giỏ hàng trống</div>
                         ) : (
                           filteredProduct.map(({ product, quantity }) => (
@@ -60,20 +69,44 @@ const CartDetail = () => {
                                 <small className="text-muted">{product.platform}</small>
                               </Col>
                               <Col md={3} lg={3} xl={3} className="d-flex align-items-center">
-                                <Form.Control 
+                                <Button
+                                  variant="outline-secondary"
+                                  size="sm"
+                                  onClick={() => decrement(product._id)}
+                                >
+                                  -
+                                </Button>
+                                <Form.Control
                                   type="number" 
                                   min="1" 
                                   value={quantity}
                                   readOnly
-                                  size="sm" 
-                                  style={{ width: "60px" }} 
+                                  size="sm"
+                                  style={{ width: "40px" }} 
                                 />
+                                <Button
+                                  variant="outline-secondary"
+                                  size="sm"
+                                  onClick={() => increment(product._id)}
+                                >
+                                  +
+                                </Button>
                               </Col>
                               <Col md={3} lg={2} xl={2} className="text-end">
-                                <h6 className="mb-0">tổng tiền</h6>
+                                <h6 className="mb-0">
+                                  {formatPrice(product.new_price * quantity)}
+                                </h6>
                               </Col>
                               <Col md={1} lg={1} xl={1} className="text-end">
-                                <span className="text-muted" role="img" aria-label="remove">×</span>
+                                <button
+                                  type="button"
+                                  className="btn btn-link text-muted p-0"
+                                  aria-label="remove"
+                                  onClick={() => removeFromCart(product._id)}
+                                  title="Xoá khỏi giỏ"
+                                >
+                                  ×
+                                </button>
                               </Col>
                             </Row>
                           ))
@@ -95,12 +128,12 @@ const CartDetail = () => {
                     {/* Right side - Summary */}
                     <Col lg={4} className="bg-grey">
                       <div className="p-5">
-                        <h3 className="fw-bold mb-5 mt-2 pt-1">Summary</h3>
+                        <h3 className="fw-bold mb-5 mt-2 pt-1">TỔNG CỘNG</h3>
                         <hr className="my-4" />
 
                         <div className="d-flex justify-content-between mb-4">
-                          <h5 className="text-uppercase">items </h5>
-                          <h5>Gía</h5>
+                          <h5 className="text-uppercase">sản phẩm</h5>
+                          <h5>{totalItems} SP</h5>
                         </div>
 
                         <h5 className="text-uppercase mb-3">Mã giảm giá</h5>
@@ -111,8 +144,8 @@ const CartDetail = () => {
                         <hr className="my-4" />
 
                         <div className="d-flex justify-content-between mb-5">
-                          <h5 className="text-uppercase">Total price</h5>
-                          <h5>Gía</h5>
+                          <h5 className="text-uppercase">Tổng tiền</h5>
+                          <h5>{formatPrice(totalAmount)}</h5>
                         </div>
 
                         <Button variant="dark" size="lg" className="w-100">
