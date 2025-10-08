@@ -57,7 +57,7 @@ const CartContextProvider = (props) => {
     // ===== Cart helpers =====
     const updateCartQuantity = async (productId, quantity) => {
         try {
-            const res = await api.put('/api/cart/update-quantity', {
+            const res = await api.patch('/api/cart/update-quantity', {
                 productId,
                 quantity
             });
