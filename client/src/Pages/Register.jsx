@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Form, Button, Card, Toast, ToastContainer } from "react-bootstrap";
 import { CheckCircle, XCircle } from "lucide-react";
-import axios from "axios";
+import api from "../api/axios";
 
 const Register = () => {
     // React Router
@@ -41,7 +41,7 @@ const Register = () => {
         }
 
         try {
-            const res = await axios.post('http://localhost:4000/api/user/register', {
+            const res = await api.post('/api/user/register', {
                 userEmail,
                 userPassword
             });
@@ -59,7 +59,7 @@ const Register = () => {
         } catch (error) {
             let errorMessage = "Đăng ký thất bại!";
       
-            if (axios.isAxiosError(error)) {
+            if (error && error.isAxiosError) {
                 errorMessage = error.response?.data?.message || "Đăng ký thất bại!";
             } else {
                 errorMessage = "Lỗi không xác định";
