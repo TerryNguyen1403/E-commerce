@@ -1,6 +1,6 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import api from "../api/axios";
 import Pagination from "react-bootstrap/Pagination";
 
 // Import components
@@ -24,12 +24,12 @@ const DisplayProduct = ({ endpoint }) => {
 
   useEffect(() => {
     const load = async () => {
-      // Try server-side endpoint when available
+      // Lấy sản phẩm mới
       if (normalizedEndpoint === "new-products") {
         setLoading(true);
         try {
-          const res = await axios.get(
-            "http://localhost:4000/api/product/new-products"
+          const res = await api.get(
+            "/api/product/new-products"
           );
           const data = res.data?.newProducts || [];
           if (Array.isArray(data) && data.length) {
@@ -38,6 +38,24 @@ const DisplayProduct = ({ endpoint }) => {
           }
         } catch (e) {
           console.error('Error: ', e);
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      // Lấy sản phẩm nổi bật
+      if (normalizedEndpoint === "featured-products") {
+        setLoading(true);
+
+        try {
+          const res = await api.get('/api/product/featured-products');
+          const responsedData = res.data?.featuredProducts || [];
+          if (Array.isArray(responsedData) && responsedData.length) {
+            setProducts(responsedData);
+            return;
+          }
+        } catch (error) {
+          console.error('Error: ', error);
         } finally {
           setLoading(false);
         }

@@ -2,7 +2,7 @@ import { useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Carousel, Container, Row, Col } from "react-bootstrap";
 import Spinner from 'react-bootstrap/Spinner';
-import axios from 'axios'
+import api from '../../api/axios'
 import './CarouselComponent.css'
 import errorImg from '../../assets/404.jpg'
 
@@ -14,7 +14,7 @@ const CarouselComponent = () => {
     useEffect(() => {
         const fetchFeaturedProducts = async () => {
         try {
-            const res = await axios.get("http://localhost:4000/api/product/featured-products");
+            const res = await api.get("/api/product/featured-products");
             setFeaturedProducts(res.data.featuredProducts);
 
         } catch (error) {

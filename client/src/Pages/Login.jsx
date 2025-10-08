@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import { Container, Form, Button, Card, Toast, ToastContainer } from "react-bootstrap";
 import { CheckCircle, XCircle } from "lucide-react";
@@ -35,7 +35,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post('http://localhost:4000/api/user/login', {
+      const res = await api.post('/api/user/login', {
         userEmail: userEmail,
         userPassword: userPassword
       })
@@ -56,7 +56,7 @@ const Login = () => {
     } catch (error) {
       let errorMessage = "Đăng nhập thất bại!";
       
-      if (axios.isAxiosError(error)) {
+      if (error && error.isAxiosError) {
         errorMessage = error.response?.data?.message || "Đăng nhập thất bại!";
       } else {
         errorMessage = "Lỗi không xác định";

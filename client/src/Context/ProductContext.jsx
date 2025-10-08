@@ -1,5 +1,5 @@
-import React, { createContext, useEffect, useState} from "react";
-import axios from 'axios';
+import { createContext, useEffect, useState} from "react";
+import api from '../api/axios';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const ProductContext = createContext(null);
@@ -11,7 +11,7 @@ const ProductContextProvider = (props) => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get('http://localhost:4000/api/product/all-products');
+                const response = await api.get('/api/product/all-products');
                 setAllProducts(response.data.allProducts);
 
             } catch (error) {
