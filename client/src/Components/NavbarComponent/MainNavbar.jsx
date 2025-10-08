@@ -1,13 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Navbar, Container, Form, InputGroup, FormControl, Button, Nav } from "react-bootstrap";
+import { Navbar, Container, Form, InputGroup, FormControl, Button, Nav, Badge } from "react-bootstrap";
 import { CartFill } from "react-bootstrap-icons";
-import logo from "../../assets/logo.png"; // sửa lại path cho đúng
+import logo from "../../assets/logo.png";
+
+// Import context
+import { CartContext } from "../../Context/CartContext";
 
 const MainNavbar = () => {
     const navigate = useNavigate();
     const [userEmail, setUserEmail] = useState(null);
     const [dropdownMenu, setDropdownMenu] = useState(false);
+
+    // Hàm hiển thị số lượng
+    const { getTotalItems } = useContext(CartContext);
 
     useEffect(() => {
         // Lấy userEmail từ localStorage khi load page
@@ -73,8 +79,20 @@ const MainNavbar = () => {
 
                 {/* Giỏ hàng + Đăng nhập/Đăng ký */}
                 <Nav className="ms-auto d-flex align-items-center">
-                    <Nav.Link href="/cart" className="d-flex align-items-center me-3">
+                    <Nav.Link href="/cart" className="d-flex align-items-center me-3 position-relative">
                         <CartFill size={20} className="me-1" />
+                        <Badge
+                            bg="secondary"
+                            pill
+                            className="position-absolute translate-middle"
+                            style={{ 
+                                fontSize: '0.7rem',
+                                top: '0',
+                                left: '100%'
+                            }}
+                        >
+                            {getTotalItems()}
+                        </Badge>
                     </Nav.Link>
                     
                     {userEmail ? (
@@ -131,7 +149,7 @@ const MainNavbar = () => {
                                         </a>
 
                                         {/* Sản phẩm yêu thích */}
-                                        <a
+                                        {/* <a
                                             href="/wishlist" 
                                             className="dropdown-item d-flex align-items-center py-2 px-3 text-decoration-none text-dark"
                                             style={{transition: 'background-color 0.2s'}}
@@ -139,7 +157,7 @@ const MainNavbar = () => {
                                             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                                         >
                                             Sản phẩm yêu thích
-                                        </a>
+                                        </a> */}
 
                                         {/* Đăng xuất */}
                                         <a

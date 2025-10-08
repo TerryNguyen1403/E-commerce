@@ -69,20 +69,30 @@ const CartContextProvider = (props) => {
         }
     }
 
+    // Tăng số lượng
     const increment = async (productId) => {
         const current = Number(cartData?.[productId] ?? 0);
         await updateCartQuantity(productId, current + 1);
     }
 
+    // Giảm số lượng
     const decrement = async (productId) => {
         const current = Number(cartData?.[productId] ?? 0);
         const next = current - 1;
         await updateCartQuantity(productId, next < 0 ? 0 : next);
     }
 
+    // Xóa khỏi giỏ hàng
     const removeFromCart = async (productId) => {
         await updateCartQuantity(productId, 0);
     }
+
+    // Hiển thị tổng số lượng trong giỏ hàng
+    const getTotalItems = () => {
+        return Object.values(cartData || {}).reduce(
+            (sum, qty) => sum + Number(qty ?? 0), 0 
+        )
+    };
 
     const contextValue = {
         cartData,
@@ -90,7 +100,8 @@ const CartContextProvider = (props) => {
         updateCartQuantity,
         increment,
         decrement,
-        removeFromCart
+        removeFromCart,
+        getTotalItems
     }
 
     return (
